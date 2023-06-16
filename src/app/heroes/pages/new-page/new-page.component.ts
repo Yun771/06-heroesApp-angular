@@ -3,7 +3,7 @@ import {FormControl, FormGroup} from "@angular/forms";
 import {Hero, Publisher} from "../../interfaces/hero.interface";
 import {HeroesService} from "../../services/heroes.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {switchMap} from "rxjs";
+import {filter, switchMap, tap} from "rxjs";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirDialogComponent} from "../components/confir-dialog/confir-dialog.component";
@@ -103,10 +103,25 @@ export class NewPageComponent implements OnInit {
         data: this.heroForm.value
       });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log({result})
+    dialogRef.afterClosed()
+      .pipe(
+        filter((res: boolean) => res),
+        switchMap(() => this.hereosService.deleteById(this.currentHero.id)),
+        filter((wasDeleted: boolean) => wasDeleted )
+      )
+      .subscribe(_ => {
+          this.router.navigate([''])
+
     })
+
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if (!result) return;
+    //   this.hereosService.deleteById(this.currentHero.id).subscribe((wasDeleted) => {
+    //       if (wasDeleted) {
+    //         this.router.navigate(['/heroes'])
+    //       }
+    //   });
+    // })
 
   }
 }
