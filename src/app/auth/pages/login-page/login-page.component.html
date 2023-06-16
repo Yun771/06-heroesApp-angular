@@ -19,11 +19,14 @@
     >
   </mat-form-field>
 
-  <button mat-button mat-flat-button color="primary">Ingresar</button>
+  <button
+    mat-button mat-flat-button
+          color="primary"
+    (click)="onLogin()"
+  >Ingresar</button>
 
-  <div class="flex justify-content-end mt-5">
-    <mat-icon>save</mat-icon>
-    <a routerLink="/auth/new-account">¿Ya tienes cuenta?</a>
+  <div class="flex justify-content-end mt-3">
+    <a routerLink="/auth/new-account">¿No tienes cuenta?</a>
   </div>
 
 </div>

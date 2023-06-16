@@ -38,11 +38,11 @@
       </button>
 
       <span class="spacer"></span>
+      <span class="px-2">{{ user?.email }}</span>
 
       <button
         mat-button
-              mat-flat-button
-
+        (click)="onLogout()"
       >
         Logout
       </button>
